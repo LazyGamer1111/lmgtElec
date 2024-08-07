@@ -73,6 +73,7 @@ java {
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
     // If you remove this line, sources will not be generated.
+    withJavadocJar()
     withSourcesJar()
 }
 
@@ -85,19 +86,43 @@ jar {
 // configure the maven publication
 publishing {
     publications {
-        create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
+        maven(MavenPublication) {
+            groupId = 'io.github.LazyGamer1111'
+            artifactId = 'lmgtElec'
+
             from components.java
+
+            pom {
+                name = 'lmgtElec'
+                description = "Lazy's modern gregtech"
+                url = 'https://github.com/LazyGamer1111/lmgtElec'
+                inceptionYear = '2024'
+                licenses {
+                    license {
+                        name = 'Apache-2.0'
+                        url = 'https://spdx.org/licenses/Apache-2.0.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'LazyGamer1111'
+                        name = 'Lazy'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/lazygamer1111/lmgtElec.git'
+                    developerConnection = 'scm:git:ssh://github.com/lazygamer1111/lmgtElec.git'
+                    url = 'http://github.com/lazygamer1111/lmgtElec.git'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
-    }
 }
 
 jreleaser {
@@ -111,7 +136,7 @@ jreleaser {
                 sonatype {
                     active = 'ALWAYS'
                     url = 'https://central.sonatype.com/api/v1/publisher'
-                    stagingRepository('target/staging-deploy')
+                    stagingRepository('build/staging-deploy')
                 }
             }
         }
