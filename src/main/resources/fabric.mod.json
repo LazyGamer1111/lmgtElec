@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "lmgtelec",
+  "version": "${version}",
+  "name": "lmgtElec",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/lmgtelec/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.LazyGamer1111.lmgtelec.client.LmgtelecClient"
+    ],
+    "main": [
+      "io.github.LazyGamer1111.lmgtelec.Main"
+    ]
+  },
+  "mixins": [
+    "lmgtelec.mixins.json",
+    {
+      "config": "lmgtelec.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
